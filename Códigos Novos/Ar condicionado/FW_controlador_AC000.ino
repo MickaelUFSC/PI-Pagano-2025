@@ -84,6 +84,9 @@ void reconnect() {
     }
 }
 
+//Código para trocar o inicio da rede padrão
+// Se o usuário não responder em 5 segundos, mantém a rede atual
+// Se o usuário responder "s" ou "S", troca a rede padrão
 void changeWiFiCredentials() {
     Serial.println("\nTrocar rede padrão? (s/n) - Aguarde 5s para ignorar.");
 
@@ -124,7 +127,8 @@ void changeWiFiCredentials() {
     ESP.restart();
 }
 
-
+// Função para conectar ao Wi-Fi
+// Se não conseguir conectar, tenta novamente por 15 segundos
 void connectWiFi() {
     Serial.print("Conectando ao Wi-Fi: ");
     Serial.println(ssid);
@@ -145,7 +149,10 @@ void connectWiFi() {
         Serial.println("\nFalha ao conectar! Verifique as credenciais.");
     }
 }
-//
+
+//Realiza o setup do ESP32
+// Inicia o IR, o DHT e o Wi-Fi
+
 void setup() {
   Serial.begin(115200); // Inicia a serial para informações local
   IrSender.begin(IR_PIN); // IR PIN como saida
@@ -199,8 +206,7 @@ void loop() {
       client.publish("sensor/presenca", String(presenca).c_str());
     } else {
       Serial.println("MQTT desconectado. Tentando reconectar...");
-      // Aqui você pode colocar sua função de reconexão, tipo:
-      // reconnectMQTT();
+      reconnect();
     }
 
     // Se quiser acionar algo com base na presença:
