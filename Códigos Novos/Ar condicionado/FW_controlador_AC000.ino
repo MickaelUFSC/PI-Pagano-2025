@@ -178,6 +178,7 @@ void setup() {
   reconnect(); // Conectar ao broker MQTT
 }
 
+// Variáveis para temporização
 
 unsigned long previousMillis = 0;
 const unsigned long interval = 5000; // 5 segundos
